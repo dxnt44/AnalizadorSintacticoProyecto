@@ -42,6 +42,8 @@ public class Parser {
     private final Token mayor_que = new Token(TipoToken.MAYOR_QUE, ">");
     private final Token menor_o_igual_que = new Token(TipoToken.MENOR_O_IGUAL_QUE, "<=");
     private final Token mayor_o_igual_que = new Token(TipoToken.MAYOR_O_IGUAL_QUE, ">=");
+    private final Token number = new Token(TipoToken.NUMERO, "NUMERO");
+    private final Token string = new Token(TipoToken.CADENA, "CADENA");
     private final Token finCadena = new Token(TipoToken.EOF, "");
 
     private int i = 0;
@@ -56,7 +58,7 @@ public class Parser {
     public void parse() {
         i = 0;
         preanalisis = tokens.get(i);
-        Q();
+        PROGRAM();
 
         if (!hayErrores && !preanalisis.equals(finCadena)) {
             System.out.println("Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.tipo);
@@ -71,7 +73,7 @@ public class Parser {
         }*/
     }
 
-    void PROGRAM() {
+    void PROGRAM(){
         DECLARATION();
     }
 
@@ -87,7 +89,12 @@ public class Parser {
         } else if (preanalisis.equals(var)) {
             VAR_DECL();
             DECLARATION();
-        } else {
+        } else if (preanalisis.equals(for_) || preanalisis.equals(if_) || preanalisis.equals(print_)
+                || preanalisis.equals(return_) || preanalisis.equals(while_) || preanalisis.equals(llave_izq)
+                || preanalisis.equals(true_) || preanalisis.equals(false_) || preanalisis.equals(null_)
+                || preanalisis.equals(this_) || preanalisis.equals(number) || preanalisis.equals(string)
+                || preanalisis.equals(identificador) || preanalisis.equals(super_) || preanalisis.equals(negacion)
+                || preanalisis.equals(resta)){
             STATEMENT();
             DECLARATION();
         }
@@ -162,7 +169,10 @@ public class Parser {
             WHILE_STMT();
         } else if (preanalisis.equals(llave_izq)) {
             BLOCK();
-        } else {
+        } else if (preanalisis.equals(true_) || preanalisis.equals(false_) || preanalisis.equals(null_)
+                || preanalisis.equals(this_) || preanalisis.equals(number) || preanalisis.equals(string)
+                || preanalisis.equals(identificador) || preanalisis.equals(super_) || preanalisis.equals(negacion)
+                || preanalisis.equals(resta)){
             EXPRESSION_STMT();
         }
     }
@@ -312,9 +322,16 @@ public class Parser {
     void BLOC_DECL(){
         if (hayErrores) return;
 
-        DECLARATION();
-        BLOC_DECL();
-
+        if (preanalisis.equals(class_) || preanalisis.equals(fun) || preanalisis.equals(var)
+                || preanalisis.equals(for_) || preanalisis.equals(if_) || preanalisis.equals(print_)
+                || preanalisis.equals(return_) || preanalisis.equals(while_) || preanalisis.equals(llave_izq)
+                || preanalisis.equals(true_) || preanalisis.equals(false_) || preanalisis.equals(null_)
+                || preanalisis.equals(this_) || preanalisis.equals(number) || preanalisis.equals(string)
+                || preanalisis.equals(identificador) || preanalisis.equals(super_) || preanalisis.equals(negacion)
+                || preanalisis.equals(resta)){
+            DECLARATION();
+            BLOC_DECL();
+        }
     }
 
     void EXPRESSION(){
