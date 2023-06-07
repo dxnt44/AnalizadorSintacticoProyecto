@@ -215,6 +215,9 @@ public class Parser {
             EXPRESSION_STMT();
         } else if (preanalisis.equals(punto_y_coma)) {
             coincidir(punto_y_coma);
+        } else {
+            hayErrores = true;
+            System.out.println("Error en la posición " + preanalisis.posicion + ". Error en la primer parte de for.");
         }
     }
 
