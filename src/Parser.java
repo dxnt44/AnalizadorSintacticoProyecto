@@ -128,6 +128,7 @@ public class Parser {
         if (preanalisis.equals(fun)) {
             coincidir(fun);
             FUNCTION();
+
         } else {
             hayErrores = true;
             System.out.println("Error en la posición " + preanalisis.posicion + ". Error en la declaracion de clase.");
@@ -312,9 +313,11 @@ public class Parser {
     }
 
     void BLOCK(){
+
         if (hayErrores) return;
 
         if(preanalisis.equals(llave_izq)){
+
             coincidir(llave_izq);
             BLOC_DECL();
             coincidir(llave_der);
@@ -323,6 +326,7 @@ public class Parser {
 
 
     void BLOC_DECL(){
+
         if (hayErrores) return;
 
         if (preanalisis.equals(class_) || preanalisis.equals(fun) || preanalisis.equals(var)
@@ -592,7 +596,7 @@ public class Parser {
         }else if (preanalisis.equals(false_)){
             coincidir(false_);
         }else if (preanalisis.equals(null_)){
-            coincidir(this_);
+            coincidir(null_);
         }else if (preanalisis.equals(this_)){
             coincidir(this_);
         }else if (preanalisis.equals(number)){
@@ -640,6 +644,7 @@ public class Parser {
 
         if (preanalisis.equals(identificador)){
             PARAMETERS();
+
         }
     }
 
