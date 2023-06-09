@@ -80,15 +80,15 @@ public class Scanner {
 
         int cont = 1;
 
-        while (cont - 1 < source.length()) {
-            char a = source.charAt(cont - 1);
+        while (cont - 1 != source.length()) {
+
 
             if (source.charAt(cont - 1) == ' ') {
                 cont++;
             } else if (source.charAt(cont - 1) == '\t') {
                 cont++;
             } else if (source.charAt(cont - 1) == '\n' || source.charAt(cont - 1) == '\r') {
-                cont+=2;
+                cont++;
                 linea++;
             }else
 

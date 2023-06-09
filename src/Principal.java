@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,8 +10,13 @@ public class Principal {
     static boolean existenErrores = false;
 
     public static void main(String[] args) throws IOException {
-        ejecutarPrompt();
-        ejecutarArchivoDeTexto("C:\\Users\\danie\\OneDrive\\Escritorio\\ISC\\5to\\Compiladores\\AnalizadorSintacticoPF\\src\\"+nombrearchivo);
+
+        if(args.length == 0){
+            ejecutarPrompt();
+        }
+        else if(args.length==1){
+            ejecutarArchivoDeTexto(args[0]);
+        }
     }
 
     private static void ejecutarPrompt() throws IOException{
@@ -21,13 +27,6 @@ public class Principal {
             System.out.print(">>> ");
             String linea = reader.readLine();
 
-
-            if(linea.equals("archivo")) {
-                System.out.print("Nombre >>> ");
-                nombrearchivo = reader.readLine();
-                break;
-            }
-
             if(linea == null) break; // Presionar Ctrl + D
             ejecutar(linea);
             existenErrores = false;
@@ -36,15 +35,19 @@ public class Principal {
 
     private static void ejecutarArchivoDeTexto(String nombreArchivo) {
         try {
-            FileReader fileReader = new FileReader(nombreArchivo);
+            byte[] bytes = Files.readAllBytes(Paths.get(nombreArchivo));
+            ejecutar(new String(bytes, Charset.defaultCharset()));
+
+
+            /*FileReader fileReader = new FileReader(nombreArchivo);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            String linea;
+            String linea = bufferedReader.
             while ((linea = bufferedReader.readLine()) != null) {
                 ejecutar(linea);
             }
 
-            bufferedReader.close();
+            bufferedReader.close();*/
         } catch (IOException e) {
             System.err.println("Error al leer el archivo: " + e.getMessage());
         }
